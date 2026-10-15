@@ -47,17 +47,15 @@ function formatTime(totalSeconds) {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 }
 function startTimer() {
+    if (isRunning) return; 
     console.log("таймер запущен");
     startBtn.disabled = true;
     stopBtn.disabled = false;
     lapBtn.disabled = false;
-    let isRunning = true;
-    let timer = setInterval(() => {
+    isRunning = true;
+    timer = setInterval(() => {
     count++;
     console.log(`Прошло секунд: ${count}`);
-    if (isRunning == false) {
-        clearInterval(timer);
-    }
 }, 1000);
 }
 
@@ -66,10 +64,12 @@ function stopTimer(){
     startBtn.disabled = false;
     stopBtn.disabled = true;
     isRunning = false;
+    clearInterval(timer)
 }
 
 function resetTimer(){
     console.log("таймер перезапущен");
+    count = 0;
     
     
 
