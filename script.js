@@ -47,6 +47,14 @@ function updateDisplay(){
     const hours = Math.floor(elapsedTime / 3600);
     const minutes = Math.floor((elapsedTime % 3600) / 60);
     const seconds = elapsedTime % 60;
+
+    updateCircleProgress(secondsCircle, seconds, 60);
+    updateCircleProgress(minutesCircle, minutes, 60);
+    updateCircleProgress(hoursCircle, hours, 24);
+
+    hoursEl.textContent = hours.toString().padStart(2, '0');
+    minutesEl.textContent = minutes.toString().padStart(2, '0');
+    secondsEl.textContent = seconds.toString().padStart(2, '0');
     
 }
 function recordLap() {
@@ -83,8 +91,10 @@ function startTimer() {
 
     isRunning = true;
     timer = setInterval(() => {
-    count++;
-    console.log(`Прошло секунд: ${count}`);
+    elapsedTime++;
+    console.log(`Прошло секунд: ${elapsedTime}`);
+    updateDisplay()
+
 }, 1000);
 }
 
@@ -95,12 +105,18 @@ function stopTimer(){
     lapBtn.disabled = true;
     isRunning = false;
     clearInterval(timer);
-    console.log(formatTime(timer));
+    console.log(formatTime(elapsedTime));
 }
 
 function resetTimer(){
     console.log("таймер перезапущен");
-    count = 0;
+    elapsedTime = 0;
+    stopTimer()
+    elapsedTime = 0
+    lapCount = 0 
+    updateDisplay()
+    lapList.innerHTML = ""
+    lapsContainer.style.display = "none"
     
     
 
@@ -116,3 +132,5 @@ startBtn.addEventListener("click", startTimer)
 stopBtn.addEventListener("click", stopTimer)
 lapBtn.addEventListener("click", lapTimer)
 resetBtn.addEventListener("click", resetTimer)
+
+updateDisplay()
